@@ -1,0 +1,40 @@
+# Retail Analytics System Configuration
+
+# Video input
+video:
+  source: 0  # 0 for webcam, or path to video file
+  width: 640
+  height: 480
+  fps: 30
+
+# Object Detection
+object_detection:
+  model_path: "data/models/yolov8n.pt"
+  confidence_threshold: 0.5
+  person_class: 0
+  product_classes: [39, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 73, 74, 75, 76, 77]
+
+# Gesture Detection
+gesture_detection:
+  hand_detection_confidence: 0.7
+  reach_threshold: 0.1
+  grasp_threshold: 0.05
+
+# Customer Tracking
+customer_tracking:
+  interaction_threshold: 1.5  # seconds
+
+# Analytics
+analytics:
+  pickup_sequence: ["Reaching", "Grasping"]
+  putback_sequence: ["Grasping", "Releasing"]
+
+# Logging
+logging:
+  level: "INFO"
+  file: "logs/retail_analytics.log"
+
+# Web Interface
+web:
+  host: "0.0.0.0"
+  port: 5000

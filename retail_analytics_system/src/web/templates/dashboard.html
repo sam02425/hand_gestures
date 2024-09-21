@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retail Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Retail Analytics Dashboard</h1>
+    <div>
+        <canvas id="interactionChart"></canvas>
+    </div>
+    <script>
+        function fetchData() {
+            fetch('/api/interactions')
+                .then(response => response.json())
+                .then(data => updateChart(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateChart(data) {
+            const ctx = document.getElementById('interactionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: 'Pick up',
+                        data: Object.values(data).map(d => d.pick_up),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                    }, {
+                        label: 'Put back',
+                        data: Object.values(data).map(d => d.put_back),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                    }, {
+                        label: 'Confuse',
+                        data: Object.values(data).map(d => d.confuse),
+                        backgroundColor: 'rgba(255, 206, 86, 0.6)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        fetchData();
+        setInterval(fetchData, 5000);  // Update every 5 seconds
+    </script>
+</body>
+</html>
